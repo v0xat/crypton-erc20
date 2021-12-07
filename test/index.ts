@@ -117,14 +117,56 @@ describe("CryptonToken", function () {
   });
 
   describe("Allowance", function () {
-    it("Should be able to approve tokens", async () => {
-      // Approve owner's 200 CRPT to alice
+    // Can't get function return value
+    // it("Should be able to approve tokens", async () => {
+    //   const approve = await cryptonToken.approve(alice.address, ethers.utils.parseUnits("10.0", decimals));
+    //   console.log(approve);
+    //   expect(await cryptonToken.approve(alice.address, ethers.utils.parseUnits("100.0", decimals))).to.equal(true);
+    // });
+
+    it("Approve should emit event", async () => {
+      const amount = ethers.utils.parseUnits("10.0", decimals);
+      await expect(cryptonToken.approve(alice.address, amount))
+        .to.emit(cryptonToken, "Approval")
+        .withArgs(owner.address, alice.address, amount);
+    });
+
+    it("Allowance should change after token approve", async () => {
       await cryptonToken.approve(alice.address, ethers.utils.parseUnits("200.0", decimals));
       const allowance = await cryptonToken.allowance(
         owner.address,
         alice.address
       );
       expect(allowance).to.be.equal(ethers.utils.parseUnits("200.0", decimals));
+    });
+
+    it("TransferFrom should emit event", async () => {
+      const amount = ethers.utils.parseUnits("10.0", decimals);
+      await cryptonToken.approve(alice.address, amount);
+      await expect(cryptonToken.connect(alice).transferFrom(owner.address, alice.address, amount))
+        .to.emit(cryptonToken, "Transfer")
+        .withArgs(alice.address, alice.address, amount);
+    });
+
+    it("Can not TransferFrom above the approved amount", async () => {
+      const amount = ethers.utils.parseUnits("10.0", decimals);
+      const aboveAmount = ethers.utils.parseUnits("20.0", decimals);
+      await cryptonToken.approve(alice.address, amount);
+      await expect(cryptonToken.connect(alice).transferFrom(owner.address, alice.address, aboveAmount))
+        .to.be.revertedWith("Not enough tokens");
+    });
+
+    it("Can not TransferFrom if owner does not have enough tokens", async () => {
+      // Approve alice to use 10 tokens
+      const amount = ethers.utils.parseUnits("10.0", decimals);
+      await cryptonToken.approve(alice.address, amount);
+
+      // Send most of owner tokens to bob
+      await cryptonToken.transfer(bob.address, ethers.utils.parseUnits("995.0", decimals));
+
+      // Check that we can't transfer all amount (only 5 left)
+      await expect(cryptonToken.connect(alice).transferFrom(owner.address, alice.address, amount))
+        .to.be.revertedWith("Not enough tokens");
     });
   });
 });
