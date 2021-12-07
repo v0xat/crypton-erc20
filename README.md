@@ -4,7 +4,6 @@ ERC-20 token implementation according to the https://eips.ethereum.org/EIPS/eip-
 
 ### TODO
 
-- Deal with decimals
 - Deploy to Rinkeby
 - Tasks
 

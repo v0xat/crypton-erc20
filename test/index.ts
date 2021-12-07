@@ -78,14 +78,14 @@ describe("CryptonToken", function () {
 
     it("Can not transfer above the amount", async () => {
       await expect(
-        cryptonToken.transfer(alice.address, 1001)
+        cryptonToken.transfer(alice.address, ethers.utils.parseEther("1001"))
       ).to.be.revertedWith("Not enough tokens");
     });
 
     it("Transfer should emit event", async () => {
       const from = owner.address;
       const to = alice.address;
-      const amount = 10;
+      const amount = ethers.utils.parseEther("10");
 
       await expect(cryptonToken.transfer(to, amount))
         .to.emit(cryptonToken, "Transfer")
@@ -96,32 +96,36 @@ describe("CryptonToken", function () {
       const initialOwnerBalance = await cryptonToken.balanceOf(owner.address);
 
       // Transfer 200 CRPT from owner to alice
-      await cryptonToken.transfer(alice.address, 200);
-
+      await cryptonToken.transfer(
+        alice.address,
+        ethers.utils.parseEther("200")
+      );
       // Transfer another 100 CRPT from owner to bob
-      await cryptonToken.transfer(bob.address, 100);
+      await cryptonToken.transfer(bob.address, ethers.utils.parseEther("100"));
 
       // Check balances
       const finalOwnerBalance = await cryptonToken.balanceOf(owner.address);
-      expect(finalOwnerBalance).to.equal(initialOwnerBalance - 300);
+      expect(finalOwnerBalance).to.equal(
+        initialOwnerBalance.sub(ethers.utils.parseEther("300"))
+      );
 
       const aliceBalance = await cryptonToken.balanceOf(alice.address);
-      expect(aliceBalance).to.equal(200);
+      expect(aliceBalance).to.equal(ethers.utils.parseEther("200"));
 
       const bobBalance = await cryptonToken.balanceOf(bob.address);
-      expect(bobBalance).to.equal(100);
+      expect(bobBalance).to.equal(ethers.utils.parseEther("100"));
     });
   });
 
   describe("Allowance", function () {
     it("Should be able to approve tokens", async () => {
       // Approve owner's 200 CRPT to alice
-      await cryptonToken.approve(alice.address, 200);
+      await cryptonToken.approve(alice.address, ethers.utils.parseEther("200"));
       const allowance = await cryptonToken.allowance(
         owner.address,
         alice.address
       );
-      expect(allowance.toNumber()).to.be.equal(200);
+      expect(allowance).to.be.equal(ethers.utils.parseEther("200"));
     });
   });
 });
