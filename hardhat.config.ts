@@ -7,8 +7,7 @@ import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
 
-import * as tasks from "./tasks/";
-console.log(tasks);
+require("./tasks/");
 
 dotenv.config();
 
