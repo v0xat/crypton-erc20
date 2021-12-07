@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv";
+import "dotenv/config";
 
 import { HardhatUserConfig, NetworkUserConfig } from "hardhat/types";
 import 'hardhat-docgen';
@@ -10,16 +10,60 @@ import "solidity-coverage";
 
 require("./tasks/");
 
-dotenv.config();
+const chainIds = {
+  rinkeby: 4,
+  matic: 137
+}
+
+// Ensure everything is in place
+let mnemonic: string;
+if (!process.env.MNEMONIC) {
+  throw new Error('Please set your MNEMONIC in a .env file')
+} else {
+  mnemonic = process.env.MNEMONIC;
+}
+
+let alchemyApiKey: string;
+if (!process.env.ALCHEMY_URL) {
+  throw new Error('Please set your INFURA_API_KEY in a .env file')
+} else {
+  alchemyApiKey = process.env.ALCHEMY_URL;
+}
+
+function createNetworkConfig(network: keyof typeof chainIds): NetworkUserConfig {
+  const url: string = alchemyApiKey;
+  return {
+    accounts: {
+      count: 2,
+      mnemonic,
+      // process.env.RINKEBY_PRIVATE_KEY !== undefined ? [process.env.RINKEBY_PRIVATE_KEY] : [],
+    },
+    chainId: chainIds[network],
+    url,
+  }
+}
+
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.10",
+  solidity: {
+    version: "0.8.10",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
+  },
+  defaultNetwork: 'hardhat',
   networks: {
-    rinkeby: {
-      url: process.env.ALCHEMY_URL || "",
-      accounts:
-        process.env.RINKEBY_PRIVATE_KEY !== undefined ? [process.env.RINKEBY_PRIVATE_KEY] : [],
-    },
+    rinkeby: createNetworkConfig('rinkeby'),
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY
+  },
+  docgen: {
+    path: './docs',
+    runOnCompile: true
   },
 };
 
