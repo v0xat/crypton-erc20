@@ -52,25 +52,24 @@ describe("CryptonToken", function () {
   describe("Transactions", function () {
     it("Should transfer CRPT between accounts", async () => {
       // Transfer 200 CRPT from owner to alice
-      await cryptonToken.transfer(alice.address, 200);
+      await cryptonToken.transfer(alice.address, ethers.utils.parseUnits("200.0", decimals));
       const aliceBalance = await cryptonToken.balanceOf(alice.address);
-      expect(aliceBalance).to.equal(200);
+      expect(aliceBalance).to.equal(ethers.utils.parseUnits("200.0", decimals));
 
       // Transfer 100 CRPT from alice to bob
-      await cryptonToken.connect(alice).transfer(bob.address, 100);
+      await cryptonToken.connect(alice).transfer(bob.address, ethers.utils.parseUnits("100.0", decimals));
       const bobBalance = await cryptonToken.balanceOf(bob.address);
-      expect(bobBalance).to.equal(100);
+      expect(bobBalance).to.equal(ethers.utils.parseUnits("100.0", decimals));
     });
 
     it("Should fail if sender doesn’t have enough CRPT", async () => {
-      const ownerBalance = await cryptonToken.balanceOf(owner.address);
-
       // Trying to send 10 CRPT from alice (0 CRPT) to owner (1000 CRPT)
       await expect(
-        cryptonToken.connect(alice).transfer(owner.address, 10)
+        cryptonToken.connect(alice).transfer(owner.address, ethers.utils.parseUnits("10.0", decimals))
       ).to.be.revertedWith("Not enough tokens");
 
       // Owner balance shouldn't have changed
+      const ownerBalance = await cryptonToken.balanceOf(owner.address);
       expect(await cryptonToken.balanceOf(owner.address)).to.equal(
         ownerBalance
       );
@@ -78,14 +77,14 @@ describe("CryptonToken", function () {
 
     it("Can not transfer above the amount", async () => {
       await expect(
-        cryptonToken.transfer(alice.address, ethers.utils.parseEther("1001"))
+        cryptonToken.transfer(alice.address, ethers.utils.parseUnits("1001.0", decimals))
       ).to.be.revertedWith("Not enough tokens");
     });
 
     it("Transfer should emit event", async () => {
       const from = owner.address;
       const to = alice.address;
-      const amount = ethers.utils.parseEther("10");
+      const amount = ethers.utils.parseUnits("10.0", decimals);
 
       await expect(cryptonToken.transfer(to, amount))
         .to.emit(cryptonToken, "Transfer")
@@ -98,34 +97,34 @@ describe("CryptonToken", function () {
       // Transfer 200 CRPT from owner to alice
       await cryptonToken.transfer(
         alice.address,
-        ethers.utils.parseEther("200")
+        ethers.utils.parseUnits("200.0", decimals)
       );
       // Transfer another 100 CRPT from owner to bob
-      await cryptonToken.transfer(bob.address, ethers.utils.parseEther("100"));
+      await cryptonToken.transfer(bob.address, ethers.utils.parseUnits("100.0", decimals));
 
       // Check balances
       const finalOwnerBalance = await cryptonToken.balanceOf(owner.address);
       expect(finalOwnerBalance).to.equal(
-        initialOwnerBalance.sub(ethers.utils.parseEther("300"))
+        initialOwnerBalance.sub(ethers.utils.parseUnits("300.0", decimals))
       );
 
       const aliceBalance = await cryptonToken.balanceOf(alice.address);
-      expect(aliceBalance).to.equal(ethers.utils.parseEther("200"));
+      expect(aliceBalance).to.equal(ethers.utils.parseUnits("200.0", decimals));
 
       const bobBalance = await cryptonToken.balanceOf(bob.address);
-      expect(bobBalance).to.equal(ethers.utils.parseEther("100"));
+      expect(bobBalance).to.equal(ethers.utils.parseUnits("100.0", decimals));
     });
   });
 
   describe("Allowance", function () {
     it("Should be able to approve tokens", async () => {
       // Approve owner's 200 CRPT to alice
-      await cryptonToken.approve(alice.address, ethers.utils.parseEther("200"));
+      await cryptonToken.approve(alice.address, ethers.utils.parseUnits("200.0", decimals));
       const allowance = await cryptonToken.allowance(
         owner.address,
         alice.address
       );
-      expect(allowance).to.be.equal(ethers.utils.parseEther("200"));
+      expect(allowance).to.be.equal(ethers.utils.parseUnits("200.0", decimals));
     });
   });
 });
