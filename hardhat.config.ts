@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 
-import { HardhatUserConfig } from "hardhat/config";
+import { HardhatUserConfig, NetworkUserConfig } from "hardhat/types";
+import 'hardhat-docgen';
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
