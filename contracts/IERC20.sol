@@ -20,19 +20,24 @@ interface IERC20 {
      */
     function transfer(address to, uint256 amount) external returns (bool);
 
-    /** @notice Returns the number of tokens approved by an `owner` to a `spender`.
+    /** @notice Returns the number of tokens 
+     * approved by an `owner` to a `spender`.
      * @param owner Address of the owner of approved tokens.
      * @param spender The approved address.
      * @return The amount of tokens in uint.
      */
-    function allowance(address owner, address spender) external view returns (uint256);
+    function allowance(
+        address owner, address spender
+    ) external view returns (uint256);
 
     /** @notice Approves `spender` to use `amount` of function caller tokens.
      * @param spender The address of recipient.
      * @param amount The amount of tokens to approve.
-     * @return The amount of tokens in uint.
+     * @return True if approved successfully.
      */
-    function approve(address spender, uint256 amount) external returns (bool);
+    function approve(
+        address spender, uint256 amount
+    ) external returns (bool);
 
     /** @notice Allows a spender to spend an allowance.
      * @param sender The address of spender.
@@ -51,12 +56,16 @@ interface IERC20 {
      * @param to Recipient`s address.
      * @param value The amount of transferred tokens.
      */
-    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Transfer(
+        address indexed from, address indexed to, uint256 value
+    );
 
     /** @notice Emitted when a token approval occurs.
      * @param owner The source account.
      * @param spender The address of spender.
      * @param value The amount of tokens.
      */
-    event Approval(address indexed owner, address indexed spender, uint256 value);
+    event Approval(
+        address indexed owner, address indexed spender, uint256 value
+    );
 }
