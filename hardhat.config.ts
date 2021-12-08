@@ -8,12 +8,12 @@ import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
 
-require("./tasks/");
+import "./tasks";
 
 const chainIds = {
   rinkeby: 4,
   matic: 137
-}
+};
 
 // Ensure everything is in place
 let mnemonic: string;
@@ -40,7 +40,7 @@ function createNetworkConfig(network: keyof typeof chainIds): NetworkUserConfig 
     },
     chainId: chainIds[network],
     url,
-  }
+  };
 }
 
 
@@ -60,6 +60,12 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY
+  },
+  paths: {
+    artifacts: './artifacts',
+    cache: './cache',
+    sources: './contracts',
+    tests: './test'
   },
   docgen: {
     path: './docs',

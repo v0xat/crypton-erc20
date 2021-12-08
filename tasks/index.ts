@@ -1,2 +1,2 @@
 import "./accounts";
-import "./erc20";
+import "./balanceOf";
