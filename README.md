@@ -9,6 +9,14 @@ Rinkeby: https://rinkeby.etherscan.io/token/0xbF3B80fd32d87A1470018daF2cCAc549b1
 - More tasks ?
 - Test coverage
 
+To run requires `.env` file with:
+- MNEMONIC
+- ALCHEMY_URL
+- CRYPTON_TOKEN_NAME
+- CRYPTON_TOKEN_SYMBOL
+- CRYPTON_TOKEN_DECIMALS
+- CRYPTON_TOKEN_MINT
+
 Try running some of the following tasks:
 
 ```shell
