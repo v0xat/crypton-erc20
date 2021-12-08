@@ -2,10 +2,11 @@
 
 pragma solidity ^0.8.10;
 
+import "./Ownable.sol";
 import "./ERC20.sol";
 
 /** @title Crypton token. */
-contract CryptonToken is ERC20 {
+contract CryptonToken is ERC20, Ownable {
     /** @dev Creates token with custom name, symbol and amount
      * @param name Name of the token.
      * @param symbol Token symbol.

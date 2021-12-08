@@ -39,9 +39,9 @@ describe("CryptonToken", function () {
       expect(await cryptonToken.decimals()).to.be.equal(decimals);
     });
 
-    // it("Should set the right owner", async () => {
-    //   expect(await cryptonToken.owner()).to.equal(owner.address);
-    // });
+    it("Should set the right owner", async () => {
+      expect(await cryptonToken.owner()).to.equal(owner.address);
+    });
 
     it("Deployment should assign the total supply of CRPT to the owner", async () => {
       const ownerBalance = await cryptonToken.balanceOf(owner.address);
