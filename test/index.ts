@@ -117,13 +117,6 @@ describe("CryptonToken", function () {
   });
 
   describe("Allowance", function () {
-    // Can't get function return value
-    // it("Should be able to approve tokens", async () => {
-    //   const approve = await cryptonToken.approve(alice.address, ethers.utils.parseUnits("10.0", decimals));
-    //   console.log(approve);
-    //   expect(await cryptonToken.approve(alice.address, ethers.utils.parseUnits("100.0", decimals))).to.equal(true);
-    // });
-
     it("Approve should emit event", async () => {
       const amount = ethers.utils.parseUnits("10.0", decimals);
       await expect(cryptonToken.approve(alice.address, amount))
