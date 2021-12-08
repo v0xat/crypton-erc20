@@ -11,21 +11,20 @@ import "solidity-coverage";
 import "./tasks";
 
 const chainIds = {
-  rinkeby: 4,
-  matic: 137
+  rinkeby: 4
 };
 
 // Ensure everything is in place
 let mnemonic: string;
 if (!process.env.MNEMONIC) {
-  throw new Error('Please set your MNEMONIC in a .env file')
+  throw new Error('Please set your MNEMONIC in a .env file');
 } else {
   mnemonic = process.env.MNEMONIC;
 }
 
 let alchemyApiKey: string;
 if (!process.env.ALCHEMY_URL) {
-  throw new Error('Please set your INFURA_API_KEY in a .env file')
+  throw new Error('Please set your ALCHEMY_API_KEY in a .env file');
 } else {
   alchemyApiKey = process.env.ALCHEMY_URL;
 }
@@ -42,7 +41,6 @@ function createNetworkConfig(network: keyof typeof chainIds): NetworkUserConfig 
     url,
   };
 }
-
 
 const config: HardhatUserConfig = {
   solidity: {

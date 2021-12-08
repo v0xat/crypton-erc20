@@ -14,7 +14,7 @@ task("token-balanceOf", "Prints an account's token balance")
     
     const cryptonToken = await hre.ethers.getContractAt(
       process.env.CRYPTON_TOKEN_NAME as string,
-      process.env.CRPT_TOKEN_ADDRESS as string
+      process.env.CRYPTON_TOKEN_ADDRESS as string
     );
     
     const balance = await cryptonToken.balanceOf(taskArgs.account);

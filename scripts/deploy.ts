@@ -12,17 +12,17 @@ for (const parameter in envConfig) {
 
 async function main() {
   let owner: SignerWithAddress;
-
   [owner] = await ethers.getSigners();
   console.log("Owner address: ", owner.address);
+
   const balance = await owner.getBalance();
   console.log(`Owner account balance: ${ethers.utils.formatEther(balance).toString()}`);
 
   const CryptonToken = await ethers.getContractFactory("CryptonToken");
   const cryptonToken = await CryptonToken.deploy(
-    process.env.CRYPTON_TOKEN_NAME || '',
-    process.env.CRYPTON_TOKEN_SYMBOL || '',
-    process.env.CRYPTON_TOKEN_MINT || ''
+    process.env.CRYPTON_TOKEN_NAME as string,
+    process.env.CRYPTON_TOKEN_SYMBOL as string,
+    process.env.CRYPTON_TOKEN_MINT as string
   );
 
   await cryptonToken.deployed();
@@ -30,7 +30,7 @@ async function main() {
 
   // Sync env file
   fs.appendFileSync(`.env-${network}`,
-  `\r\# Deployed at \rCRPT_TOKEN_ADDRESS=${cryptonToken.address}\r`);
+  `\r\# Deployed at \rCRYPTON_TOKEN_ADDRESS=${cryptonToken.address}\r`);
 }
 
 main().catch((error) => {
