@@ -2,7 +2,7 @@
 
 ERC-20 token implementation according to the https://eips.ethereum.org/EIPS/eip-20
 
-Rinkeby: https://rinkeby.etherscan.io/token/0xA5D861f65CF059F3e7C28E4c29C9F93c47827F28
+Rinkeby: https://rinkeby.etherscan.io/token/0xbF3B80fd32d87A1470018daF2cCAc549b1cAc0F2
 
 ### TODO
 
