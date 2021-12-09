@@ -216,8 +216,8 @@ describe("CryptonToken", function () {
     it("Owner should be able to burn tokens", async () => {
       const burnAmount = ethers.utils.parseUnits("10.0", decimals);
       await expect(cryptonToken.burn(burnAmount))
-        .to.emit(cryptonToken, "Burn")
-        .withArgs(owner.address, burnAmount);
+        .to.emit(cryptonToken, "Transfer")
+        .withArgs(owner.address, ethers.constants.AddressZero, burnAmount);
     });
 
     it("Token supply & balance should change after burning", async () => {
@@ -252,8 +252,8 @@ describe("CryptonToken", function () {
     it("Owner should be able to mint tokens", async () => {
       const mintAmount = ethers.utils.parseUnits("10.0", decimals);
       await expect(cryptonToken.mint(owner.address, mintAmount))
-        .to.emit(cryptonToken, "Mint")
-        .withArgs(owner.address, owner.address, mintAmount);
+        .to.emit(cryptonToken, "Transfer")
+        .withArgs(ethers.constants.AddressZero, owner.address, mintAmount);
     });
 
     it("Token supply & balance should change after minting", async () => {

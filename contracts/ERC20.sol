@@ -128,7 +128,7 @@ contract ERC20 is IERC20 {
 
     /** @notice Burns `amount` of tokens.
      * @dev Decreases `_totalSupply` and `_balances[msg.sender]` 
-     * on specified `amount`. Emits `Burn` event.
+     * on specified `amount`. Emits `Transfer` event.
      * @param amount The amount of tokens to burn.
      * @return True if burning was successfull.
      */
@@ -139,13 +139,13 @@ contract ERC20 is IERC20 {
         _totalSupply -= amount;
         _balances[msg.sender] -= amount;
         
-        emit Burn(msg.sender, amount);
+        emit Transfer(msg.sender, address(0), amount);
         return true;
     }
 
     /** @notice Mints `amount` of tokens to specified address.
      * @dev Increases `_totalSupply` and `_balances[msg.sender]` 
-     * on specified `amount`. Emits `Mint` event.
+     * on specified `amount`. Emits `Transfer` event.
      * @param to The address to mint tokens on.
      * @param amount The amount of tokens to mint.
      * @return True if minting was successfull.
@@ -154,7 +154,7 @@ contract ERC20 is IERC20 {
         _totalSupply += amount;
         _balances[to] += amount;
         
-        emit Mint(msg.sender, to, amount);
+        emit Transfer(address(0), to, amount);
         return true;
     }
 }

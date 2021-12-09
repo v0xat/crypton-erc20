@@ -68,21 +68,4 @@ interface IERC20 {
     event Approval(
         address indexed owner, address indexed spender, uint256 value
     );
-
-    /** @notice Emitted when a token burn occurs.
-     * @param burner The account burned tokens.
-     * @param amount The amount of tokens to burn.
-     */
-    event Burn(
-        address indexed burner, uint256 amount
-    );
-
-    /** @notice Emitted when a token mint occurs.
-     * @param minter The minter account address.
-     * @param to The address to mint on.
-     * @param amount The amount of tokens to mint.
-     */
-    event Mint(
-        address indexed minter, address indexed to, uint256 amount
-    );
 }
