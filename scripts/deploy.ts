@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import hre, { ethers } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
-// Gather deployment info
 const network = hre.network.name;
 const envConfig = dotenv.parse(fs.readFileSync(`.env-${network}`));
 for (const parameter in envConfig) {
@@ -11,8 +10,7 @@ for (const parameter in envConfig) {
 }
 
 async function main() {
-  let owner: SignerWithAddress;
-  [owner] = await ethers.getSigners();
+  const [owner]: SignerWithAddress[] = await ethers.getSigners();
   console.log("Owner address: ", owner.address);
 
   const balance = await owner.getBalance();

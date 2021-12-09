@@ -70,10 +70,11 @@ interface IERC20 {
     );
 
     /** @notice Emitted when a token burn occurs.
-     * @param holder The account burned tokens.
+     * @param burner The account burned tokens.
      * @param amount The amount of tokens to burn.
      */
     event Burn(
+        address indexed burner, uint256 amount
         address indexed holder, uint256 amount
     );
 }
