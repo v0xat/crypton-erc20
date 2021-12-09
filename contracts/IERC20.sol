@@ -75,6 +75,14 @@ interface IERC20 {
      */
     event Burn(
         address indexed burner, uint256 amount
-        address indexed holder, uint256 amount
+    );
+
+    /** @notice Emitted when a token mint occurs.
+     * @param minter The minter account address.
+     * @param to The address to mint on.
+     * @param amount The amount of tokens to mint.
+     */
+    event Mint(
+        address indexed minter, address indexed to, uint256 amount
     );
 }

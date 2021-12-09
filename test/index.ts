@@ -240,4 +240,33 @@ describe("CryptonToken", function () {
       );
     });
   });
+
+  describe("Minting", function () {
+    it("Non owner should not be able to mint tokens", async () => {
+      const mintAmount = ethers.utils.parseUnits("10.0", decimals);
+      await expect(
+        cryptonToken.connect(alice).mintTokens(alice.address, mintAmount)
+      ).to.be.revertedWith("Only owner can do this");
+    });
+
+    it("Owner should be able to mint tokens", async () => {
+      const mintAmount = ethers.utils.parseUnits("10.0", decimals);
+      await expect(cryptonToken.mintTokens(owner.address, mintAmount))
+        .to.emit(cryptonToken, "Mint")
+        .withArgs(owner.address, owner.address, mintAmount);
+    });
+
+    it("Token supply & balance should change after minting", async () => {
+      const initialSupply = await cryptonToken.totalSupply();
+
+      const mintAmount = ethers.utils.parseUnits("10.0", decimals);
+      await cryptonToken.mintTokens(owner.address, mintAmount);
+
+      const currentSupply = await cryptonToken.totalSupply();
+      expect(currentSupply).to.equal(initialSupply.add(mintAmount));
+
+      const ownerBalance = await cryptonToken.balanceOf(owner.address);
+      expect(ownerBalance).to.equal(initialSupply.add(mintAmount));
+    });
+  });
 });

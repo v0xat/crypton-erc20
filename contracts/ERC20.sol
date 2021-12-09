@@ -128,9 +128,9 @@ contract ERC20 is IERC20 {
 
     /** @notice Burns `amount` of tokens.
      * @dev Decreases `_totalSupply` and `_balances[msg.sender]` 
-     * on specified `amount`.
+     * on specified `amount`. Emits `Burn` event.
      * @param amount The amount of tokens to burn.
-     * @return True if burn was successfull.
+     * @return True if burning was successfull.
      */
     function burn(uint256 amount) internal returns (bool) {
         require(_totalSupply >= amount, "Not enough tokens to burn");
@@ -140,6 +140,21 @@ contract ERC20 is IERC20 {
         _balances[msg.sender] -= amount;
         
         emit Burn(msg.sender, amount);
+        return true;
+    }
+
+    /** @notice Mints `amount` of tokens to specified address.
+     * @dev Increases `_totalSupply` and `_balances[msg.sender]` 
+     * on specified `amount`. Emits `Mint` event.
+     * @param to The address to mint tokens on.
+     * @param amount The amount of tokens to mint.
+     * @return True if minting was successfull.
+     */
+    function mint(address to, uint256 amount) internal returns (bool) {
+        _totalSupply += amount;
+        _balances[to] += amount;
+        
+        emit Mint(msg.sender, to, amount);
         return true;
     }
 }

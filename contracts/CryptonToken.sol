@@ -22,4 +22,12 @@ contract CryptonToken is ERC20, Ownable {
     function burnTokens(uint256 amount) external onlyOwner {
         burn(amount);
     }
+
+    /** @notice Calls mint function to "mint" specified amount of tokens.
+     * @param to The address to mint on.
+     * @param amount The amount of tokens to mint.
+     */
+    function mintTokens(address to, uint256 amount) external onlyOwner {
+        mint(to, amount);
+    }
 }
