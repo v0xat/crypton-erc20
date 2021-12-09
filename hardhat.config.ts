@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import { HardhatUserConfig, NetworkUserConfig } from "hardhat/types";
 import "hardhat-docgen";
+import "hardhat-contract-sizer";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
@@ -69,6 +70,12 @@ const config: HardhatUserConfig = {
   docgen: {
     path: "./docs",
     runOnCompile: true,
+  },
+  contractSizer: {
+    alphaSort: false,
+    disambiguatePaths: false,
+    runOnCompile: true,
+    strict: false,
   },
 };
 
