@@ -63,7 +63,6 @@ contract ERC20 is IERC20 {
      * @return True if transfer was successfull.
      */
     function transfer(address to, uint256 amount) external returns (bool) {
-        // require(to != address(0), "Can't transfer to zero address");
         require(_balances[msg.sender] >= amount, "Not enough tokens");
 
         _balances[msg.sender] -= amount;
@@ -90,8 +89,6 @@ contract ERC20 is IERC20 {
      * @return True if approved successfully.
      */
     function approve(address spender, uint256 amount) external returns (bool) {
-        // require(spender != address(0), "Can't approve to zero address");
-
         _allowances[msg.sender][spender] = amount;
         emit Approval(msg.sender, spender, amount);
         return true;
@@ -113,8 +110,6 @@ contract ERC20 is IERC20 {
             bool
         )
     {
-        // require(owner != address(0), "Can't transfer from zero address");
-        // require(recipient != address(0), "Can't transfer to zero address");
         require(_allowances[owner][msg.sender] >= amount, "Not enough tokens");
         require(_balances[owner] >= amount, "Not enough tokens");
 
