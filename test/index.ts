@@ -49,6 +49,19 @@ describe("CryptonToken", function () {
     });
   });
 
+  describe("Ownership", function () {
+    it("Non owner should not be able to transfer ownership", async () => {
+      await expect(
+        cryptonToken.connect(alice).transferOwnership(alice.address)
+      ).to.be.revertedWith("Only owner can do this");
+    });
+
+    it("Owner can transfer ownership", async () => {
+      await cryptonToken.transferOwnership(alice.address);
+      expect(await cryptonToken.owner()).to.be.equal(alice.address);
+    });
+  });
+
   describe("Transactions", function () {
     it("Should transfer CRPT between accounts", async () => {
       // Transfer 200 CRPT from owner to alice

@@ -22,4 +22,12 @@ contract Ownable {
   function owner() external view returns(address) {
     return _owner;
   }
+
+  /** @notice Changes contract owner address.
+   * @dev Changes `_owner` variable
+   * @param newOwner The address to transfer ownership on.
+   */
+  function transferOwnership(address newOwner) external onlyOwner {
+    _owner = newOwner;
+  }
 }
