@@ -1,13 +1,13 @@
-import fs from 'fs';
-import dotenv from 'dotenv';
+import fs from "fs";
+import dotenv from "dotenv";
 import hre, { ethers } from "hardhat";
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
 // Gather deployment info
 const network = hre.network.name;
 const envConfig = dotenv.parse(fs.readFileSync(`.env-${network}`));
 for (const parameter in envConfig) {
-    process.env[parameter] = envConfig[parameter]
+  process.env[parameter] = envConfig[parameter];
 }
 
 async function main() {
@@ -16,7 +16,9 @@ async function main() {
   console.log("Owner address: ", owner.address);
 
   const balance = await owner.getBalance();
-  console.log(`Owner account balance: ${ethers.utils.formatEther(balance).toString()}`);
+  console.log(
+    `Owner account balance: ${ethers.utils.formatEther(balance).toString()}`
+  );
 
   const CryptonToken = await ethers.getContractFactory("CryptonToken");
   const cryptonToken = await CryptonToken.deploy(
@@ -29,8 +31,10 @@ async function main() {
   console.log(`CryptonToken deployed to ${cryptonToken.address}`);
 
   // Sync env file
-  fs.appendFileSync(`.env-${network}`,
-  `\r\# Deployed at \rCRYPTON_TOKEN_ADDRESS=${cryptonToken.address}\r`);
+  fs.appendFileSync(
+    `.env-${network}`,
+    `\r\# Deployed at \rCRYPTON_TOKEN_ADDRESS=${cryptonToken.address}\r`
+  );
 }
 
 main().catch((error) => {
