@@ -171,7 +171,7 @@ describe("CryptonToken", function () {
           .transferFrom(owner.address, alice.address, amount)
       )
         .to.emit(cryptonToken, "Transfer")
-        .withArgs(alice.address, alice.address, amount);
+        .withArgs(owner.address, alice.address, amount);
     });
 
     it("Can not TransferFrom above the approved amount", async () => {

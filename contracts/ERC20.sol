@@ -57,17 +57,13 @@ contract ERC20 is IERC20 {
         return _balances[account];
     }
 
-    /** @notice Transfers `amount` of tokens to specified address.
+    /** @notice Calls _transfer function.
      * @param to The address of recipient.
      * @param amount The amount of tokens to transfer.
      * @return True if transfer was successfull.
      */
     function transfer(address to, uint256 amount) external returns (bool) {
-        require(_balances[msg.sender] >= amount, "Not enough tokens");
-
-        _balances[msg.sender] -= amount;
-        _balances[to] += amount;
-        emit Transfer(msg.sender, to, amount);
+        _transfer(msg.sender, to, amount);
         return true;
     }
 
@@ -94,7 +90,7 @@ contract ERC20 is IERC20 {
         return true;
     }
 
-    /** @notice Allows a spender to spend an allowance.
+    /** @notice Allows a spender to spend an allowance by calling _transfer.
      * @param owner The address of spender.
      * @param recipient The address of recipient.
      * @param amount The amount of tokens to transfer.
@@ -111,13 +107,10 @@ contract ERC20 is IERC20 {
         )
     {
         require(_allowances[owner][msg.sender] >= amount, "Not enough tokens");
-        require(_balances[owner] >= amount, "Not enough tokens");
 
-        _balances[owner] -= amount;
+        _transfer(owner, recipient, amount);
         _allowances[owner][msg.sender] -= amount;
-        _balances[recipient] += amount;
 
-        emit Transfer(msg.sender, recipient, amount);
         return true;
     }
 
@@ -151,5 +144,18 @@ contract ERC20 is IERC20 {
         
         emit Transfer(address(0), to, amount);
         return true;
+    }
+
+    /** @notice Transfers `amount` of tokens to specified address.
+     * @param to The address of recipient.
+     * @param amount The amount of tokens to transfer.
+     */
+    function _transfer(address from, address to, uint256 amount) private {
+        require(_balances[from] >= amount, "Not enough tokens");
+
+        _balances[from] -= amount;
+        _balances[to] += amount;
+
+        emit Transfer(from, to, amount);
     }
 }
