@@ -37,4 +37,4 @@ jobs:
         run: npx hardhat compile --force
         
       - name: Run coverage
-        run: npx hardhat coverage
+        run: npx hardhat coverage --config hardhat-ci.config.ts
