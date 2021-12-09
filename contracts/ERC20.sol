@@ -132,7 +132,7 @@ contract ERC20 is IERC20 {
      * @param amount The amount of tokens to burn.
      * @return True if burning was successfull.
      */
-    function burn(uint256 amount) internal returns (bool) {
+    function _burn(uint256 amount) internal returns (bool) {
         require(_totalSupply >= amount, "Not enough tokens to burn");
         require(_balances[msg.sender] >= amount, "Not enough tokens to burn");
 
@@ -150,7 +150,7 @@ contract ERC20 is IERC20 {
      * @param amount The amount of tokens to mint.
      * @return True if minting was successfull.
      */
-    function mint(address to, uint256 amount) internal returns (bool) {
+    function _mint(address to, uint256 amount) internal returns (bool) {
         _totalSupply += amount;
         _balances[to] += amount;
         

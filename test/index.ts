@@ -209,13 +209,13 @@ describe("CryptonToken", function () {
     it("Non owner should not be able to burn tokens", async () => {
       const burnAmount = ethers.utils.parseUnits("10.0", decimals);
       await expect(
-        cryptonToken.connect(alice).burnTokens(burnAmount)
+        cryptonToken.connect(alice).burn(burnAmount)
       ).to.be.revertedWith("Only owner can do this");
     });
 
     it("Owner should be able to burn tokens", async () => {
       const burnAmount = ethers.utils.parseUnits("10.0", decimals);
-      await expect(cryptonToken.burnTokens(burnAmount))
+      await expect(cryptonToken.burn(burnAmount))
         .to.emit(cryptonToken, "Burn")
         .withArgs(owner.address, burnAmount);
     });
@@ -224,7 +224,7 @@ describe("CryptonToken", function () {
       const initialSupply = await cryptonToken.totalSupply();
 
       const burnAmount = ethers.utils.parseUnits("10.0", decimals);
-      await cryptonToken.burnTokens(burnAmount);
+      await cryptonToken.burn(burnAmount);
 
       const currentSupply = await cryptonToken.totalSupply();
       expect(currentSupply).to.equal(initialSupply.sub(burnAmount));
@@ -235,7 +235,7 @@ describe("CryptonToken", function () {
 
     it("Can not burn above total supply", async () => {
       const burnAmount = ethers.utils.parseUnits("1050.0", decimals);
-      await expect(cryptonToken.burnTokens(burnAmount)).to.be.revertedWith(
+      await expect(cryptonToken.burn(burnAmount)).to.be.revertedWith(
         "Not enough tokens to burn"
       );
     });
@@ -245,13 +245,13 @@ describe("CryptonToken", function () {
     it("Non owner should not be able to mint tokens", async () => {
       const mintAmount = ethers.utils.parseUnits("10.0", decimals);
       await expect(
-        cryptonToken.connect(alice).mintTokens(alice.address, mintAmount)
+        cryptonToken.connect(alice).mint(alice.address, mintAmount)
       ).to.be.revertedWith("Only owner can do this");
     });
 
     it("Owner should be able to mint tokens", async () => {
       const mintAmount = ethers.utils.parseUnits("10.0", decimals);
-      await expect(cryptonToken.mintTokens(owner.address, mintAmount))
+      await expect(cryptonToken.mint(owner.address, mintAmount))
         .to.emit(cryptonToken, "Mint")
         .withArgs(owner.address, owner.address, mintAmount);
     });
@@ -260,7 +260,7 @@ describe("CryptonToken", function () {
       const initialSupply = await cryptonToken.totalSupply();
 
       const mintAmount = ethers.utils.parseUnits("10.0", decimals);
-      await cryptonToken.mintTokens(owner.address, mintAmount);
+      await cryptonToken.mint(owner.address, mintAmount);
 
       const currentSupply = await cryptonToken.totalSupply();
       expect(currentSupply).to.equal(initialSupply.add(mintAmount));
