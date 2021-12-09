@@ -68,4 +68,12 @@ interface IERC20 {
     event Approval(
         address indexed owner, address indexed spender, uint256 value
     );
+
+    /** @notice Emitted when a token burn occurs.
+     * @param holder The account burned tokens.
+     * @param amount The amount of tokens to burn.
+     */
+    event Burn(
+        address indexed holder, uint256 amount
+    );
 }

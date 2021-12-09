@@ -162,4 +162,38 @@ describe("CryptonToken", function () {
         .to.be.revertedWith("Not enough tokens");
     });
   });
+
+  describe("Burning", function () {
+    it("Non owner should not be able to burn tokens", async () => {
+      const burnAmount = ethers.utils.parseUnits("10.0", decimals);
+      await expect(cryptonToken.connect(alice).burnTokens(burnAmount))
+        .to.be.revertedWith("Only owner can do this");
+    });
+
+    it("Owner should be able to burn tokens", async () => {
+      const burnAmount = ethers.utils.parseUnits("10.0", decimals);
+      await expect(cryptonToken.burnTokens(burnAmount))
+        .to.emit(cryptonToken, "Burn")
+        .withArgs(owner.address, burnAmount);
+    });
+
+    it("Token supply & balance should change after burning", async () => {
+      const initialSupply = await cryptonToken.totalSupply();
+
+      const burnAmount = ethers.utils.parseUnits("10.0", decimals);
+      await cryptonToken.burnTokens(burnAmount);
+
+      const currentSupply = await cryptonToken.totalSupply();
+      expect(currentSupply).to.equal(initialSupply.sub(burnAmount));
+
+      const ownerBalance = await cryptonToken.balanceOf(owner.address);
+      expect(ownerBalance).to.equal(initialSupply.sub(burnAmount));
+    });
+
+    it("Can not burn above total supply", async () => {
+      const burnAmount = ethers.utils.parseUnits("1050.0", decimals);
+      await expect(cryptonToken.burnTokens(burnAmount))
+        .to.be.revertedWith("Not enough tokens to burn");
+    });
+  });
 });
