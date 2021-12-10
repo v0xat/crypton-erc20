@@ -19,10 +19,6 @@ const config: HardhatUserConfig = {
     sources: "./contracts",
     tests: "./test",
   },
-  docgen: {
-    path: "./docs",
-    runOnCompile: true,
-  },
 };
 
 export default config;

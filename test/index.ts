@@ -8,7 +8,6 @@ describe("CryptonToken", function () {
   let owner: SignerWithAddress,
     alice: SignerWithAddress,
     bob: SignerWithAddress;
-  let addrs: SignerWithAddress[];
   let cryptonToken: Contract;
 
   const tokenName = "CryptonToken";
@@ -17,7 +16,7 @@ describe("CryptonToken", function () {
   const totalSupply = 1000;
 
   before(async () => {
-    [owner, alice, bob, ...addrs] = await ethers.getSigners();
+    [owner, alice, bob] = await ethers.getSigners();
     CryptonToken = await ethers.getContractFactory("CryptonToken");
   });
 
@@ -80,7 +79,7 @@ describe("CryptonToken", function () {
       expect(bobBalance).to.equal(ethers.utils.parseUnits("100.0", decimals));
     });
 
-    it("Should fail if sender doesn’t have enough CRPT", async () => {
+    it("Should fail if sender doesn't have enough CRPT", async () => {
       // Trying to send 10 CRPT from alice (0 CRPT) to owner (1000 CRPT)
       await expect(
         cryptonToken
