@@ -2,11 +2,12 @@
 
 ERC-20 token implementation according to the https://eips.ethereum.org/EIPS/eip-20 + mint/burn 
 
-Rinkeby: https://rinkeby.etherscan.io/token/0xbF3B80fd32d87A1470018daF2cCAc549b1cAc0F2
+Rinkeby: https://rinkeby.etherscan.io/token/0x02B53adF54aC0ef5fd2981c21B10536dcE204123
 
 To run requires `.env` file with:
 - MNEMONIC
 - ALCHEMY_URL
+- ETHERSCAN_API_KEY
 
 `.env-<network_name>` with:
 - CRYPTON_TOKEN_NAME
